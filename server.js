@@ -54,11 +54,13 @@ app.use(
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "*",
+    origin: [
+      "http://localhost:5173",
+      "https://milkproductio.netlify.app"
+    ],
     credentials: true,
   })
 );
-
 // ─────────────────────────────────────
 // Rate Limiter
 // ─────────────────────────────────────
@@ -89,6 +91,13 @@ app.use(
 // ─────────────────────────────────────
 // Health Route
 // ─────────────────────────────────────
+// Health Route
+// ─────────────────────────────────────
+
+app.get("/", (req, res) => {
+  res.send("🥛 DairyFlow Backend Running");
+});
+
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
@@ -97,7 +106,6 @@ app.get("/api/health", (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
-
 // ─────────────────────────────────────
 // Routes
 // ─────────────────────────────────────
