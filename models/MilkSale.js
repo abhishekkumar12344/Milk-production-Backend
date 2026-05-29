@@ -97,11 +97,10 @@ milkSaleSchema.index({ clientId: 1, date: -1 });
 /**
  * Pre-save hook to generate reference if not provided
  */
-milkSaleSchema.pre('save', function (next) {
+milkSaleSchema.pre('save', function () {
   if (!this.reference) {
     this.reference = 'INV' + Date.now().toString().slice(-6);
   }
-  next();
 });
 
 const MilkSale = mongoose.model('MilkSale', milkSaleSchema);

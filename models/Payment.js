@@ -1,8 +1,3 @@
-/**
- * Payment Model
- * Represents a payment made to a distributor
- */
-
 import mongoose from 'mongoose';
 
 const paymentSchema = new mongoose.Schema(
@@ -41,17 +36,22 @@ const paymentSchema = new mongoose.Schema(
       trim: true,
       default: '-',
     },
+    notes: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    paidAt: {
+      type: Date,
+      default: null,
+    },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-/** Index for status-based filtering */
 paymentSchema.index({ status: 1 });
-/** Index for distributor lookups */
 paymentSchema.index({ distributorId: 1 });
+paymentSchema.index({ date: -1 });
 
 const Payment = mongoose.model('Payment', paymentSchema);
-
 export default Payment;

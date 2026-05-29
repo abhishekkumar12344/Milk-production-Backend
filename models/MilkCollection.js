@@ -17,6 +17,12 @@ const milkCollectionSchema = new mongoose.Schema(
       required: [true, 'Distributor name is required'],
       trim: true,
     },
+    cowType: {
+      type: String,
+      enum: ['Cow', 'Buffalo'],
+      required: [true, 'Cow type is required'],
+      default: 'Cow',
+    },
     date: {
       type: String,
       required: [true, 'Collection date is required'],

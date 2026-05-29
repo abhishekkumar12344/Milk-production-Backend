@@ -38,11 +38,30 @@ const distributorSchema = new mongoose.Schema(
       trim: true,
       default: '',
     },
+    accountNumber: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    ifscCode: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    bankName: {
+      type: String,
+      trim: true,
+      default: '',
+    },
     milkType: {
       type: String,
       enum: ['Cow', 'Buffalo'],
       required: [true, 'Milk type is required'],
       default: 'Cow',
+    },
+    joiningDate: {
+      type: Date,
+      default: Date.now,
     },
     joinDate: {
       type: Date,

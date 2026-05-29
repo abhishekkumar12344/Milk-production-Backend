@@ -34,6 +34,7 @@ import salesRoutes from "./routes/sales.js";
 import productionRoutes from "./routes/production.js";
 import receiptRoutes from "./routes/receipts.js";
 import reportRoutes from "./routes/reports.js";
+import settingsRoutes from "./routes/settings.js";
 
 // ─────────────────────────────────────
 // App Setup
@@ -56,6 +57,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
+      "http://localhost:5174",
       "https://milkproductio.netlify.app"
     ],
     credentials: true,
@@ -122,6 +124,7 @@ app.use("/api/sales", salesRoutes);
 app.use("/api/production", productionRoutes);
 app.use("/api/receipts", receiptRoutes);
 app.use("/api/reports", reportRoutes);
+app.use("/api/settings", settingsRoutes);
 
 // ─────────────────────────────────────
 // Error Handling

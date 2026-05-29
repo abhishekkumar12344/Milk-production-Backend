@@ -16,7 +16,7 @@ router.patch('/:id', async (req, res, next) => {
   try {
     const dist = await Distributor.findById(req.params.id);
     if (!dist) throw new AppError('Distributor not found', 404);
-    ['name','village','phone','address','aadhaar','bank','milkType','status'].forEach(f => {
+    ['name','village','phone','address','aadhaar','bank','accountNumber','ifscCode','bankName','milkType','status','joiningDate'].forEach(f => {
       if (req.body[f] !== undefined) dist[f] = req.body[f];
     });
     await dist.save();

@@ -1,8 +1,3 @@
-/**
- * Inventory Model
- * Represents an inventory item in the dairy's cold storage
- */
-
 import mongoose from 'mongoose';
 
 const inventorySchema = new mongoose.Schema(
@@ -66,37 +61,32 @@ const inventorySchema = new mongoose.Schema(
   }
 );
 
-/**
- * Virtual for inventory value
- * Calculated as: quantity * price
- */
+// Virtual: inventory value
 inventorySchema.virtual('value').get(function () {
   return this.quantity * (this.price || 0);
 });
 
-/**
- * Virtual for percentage utilization
- * Calculated as: (quantity / capacity) * 100
- */
+// Virtual: percentage utilization
 inventorySchema.virtual('utilizationPercent').get(function () {
   if (this.capacity === 0) return 0;
   return Math.round((this.quantity / this.capacity) * 100);
 });
 
-/** Index for status-based filtering */
 inventorySchema.index({ status: 1 });
 inventorySchema.index({ category: 1 });
 inventorySchema.index({ location: 1 });
 
 /**
- * Pre-save hook to auto-calculate status based on quantity/capacity ratio
- * - Good: > 50% capacity AND quantity > minStock
- * - Low: 20–50% capacity OR quantity <= minStock
- * - Critical: < 20% capacity
- * - Out of Stock: quantity = 0
+ * Pre-save hook — async style (Mongoose 7+)
+ * DO NOT use function(next) callback style — next is not passed reliably in Mongoose 7+
+ * Auto-calculates status based on quantity/capacity/minStock
  */
-inventorySchema.pre('save', function (next) {
-  if (this.isModified('quantity') || this.isModified('capacity') || this.isModified('minStock')) {
+inventorySchema.pre('save', async function () {
+  if (
+    this.isModified('quantity') ||
+    this.isModified('capacity') ||
+    this.isModified('minStock')
+  ) {
     if (this.quantity <= 0) {
       this.status = 'Out of Stock';
     } else {
@@ -112,7 +102,6 @@ inventorySchema.pre('save', function (next) {
       }
     }
   }
-  next();
 });
 
 const Inventory = mongoose.model('Inventory', inventorySchema);

@@ -64,7 +64,7 @@ const getAllMilkCollections = async (req, res, next) => {
  */
 const addMilkCollection = async (req, res, next) => {
   try {
-    const { distributorId, date, shift, quantity, fat, status } = req.body;
+    const { distributorId, date, shift, quantity, fat, status, cowType } = req.body;
 
     // Validate required fields
     if (!distributorId || !date || !shift || quantity === undefined || fat === undefined) {
@@ -74,6 +74,11 @@ const addMilkCollection = async (req, res, next) => {
     // Validate shift
     if (!['Morning', 'Evening'].includes(shift)) {
       throw new AppError('Shift must be either Morning or Evening', 400);
+    }
+
+    // Validate cowType
+    if (cowType && !['Cow', 'Buffalo'].includes(cowType)) {
+      throw new AppError('Cow type must be either Cow or Buffalo', 400);
     }
 
     // Validate quantity and fat
@@ -100,6 +105,7 @@ const addMilkCollection = async (req, res, next) => {
     const milkCollection = await MilkCollection.create({
       distributorId,
       distributorName: distributor.name,
+      cowType: cowType || 'Cow',
       date,
       shift,
       quantity,

@@ -81,7 +81,7 @@ const getDistributorById = async (req, res, next) => {
  */
 const createDistributor = async (req, res, next) => {
   try {
-    const { name, village, phone, address, aadhaar, bank, milkType, joinDate, status } = req.body;
+    const { name, village, phone, address, aadhaar, bank, accountNumber, ifscCode, bankName, milkType, joiningDate, joinDate, status } = req.body;
 
     // Validate required fields
     if (!name || !village || !phone || !milkType) {
@@ -95,7 +95,11 @@ const createDistributor = async (req, res, next) => {
       address: address || '',
       aadhaar: aadhaar || '',
       bank: bank || '',
+      accountNumber: accountNumber || '',
+      ifscCode: ifscCode || '',
+      bankName: bankName || '',
       milkType,
+      joiningDate: joiningDate ? new Date(joiningDate) : new Date(),
       joinDate: joinDate ? new Date(joinDate) : new Date(),
       status: status || 'Active',
       totalLiters: req.body.totalLiters || 0,
